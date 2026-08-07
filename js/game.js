@@ -273,21 +273,43 @@ function update(dt) {
     if (p.type === "break" && p.alpha < 1) p.alpha = Math.max(0, p.alpha - .025 * step);
   }
 
-  // Landing on platforms
-  if (player.vy > 0) {
-    for (const p of game.platforms) {
-      const screenY = p.y - game.cameraY;
-      const prevBottom = player.y - player.vy * step + player.h;
-      const bottom = player.y + player.h;
-      const overlap = player.x + player.w > p.x && player.x < p.x + p.w;
+  // Landing on platforms - FIX
+if (player.vy > 0) {
+  for (const p of game.platforms) {
 
-      if (!p.broken && overlap && prevBottom <= screenY + 3 && bottom >= screenY) {
-        player.y = p.y - game.cameraY - player.h;
-        bounce(p);
-        break;
-      }
+    const platformY = p.y - game.cameraY;
+
+    const playerBottom = player.y + player.h;
+    const previousBottom =
+      player.y - player.vy * step + player.h;
+
+    const playerLeft = player.x;
+    const playerRight = player.x + player.w;
+
+    const platformLeft = p.x;
+    const platformRight = p.x + p.w;
+
+    const horizontalCollision =
+      playerRight > platformLeft &&
+      playerLeft < platformRight;
+
+    const verticalCollision =
+      previousBottom <= platformY &&
+      playerBottom >= platformY;
+
+    if (
+      !p.broken &&
+      horizontalCollision &&
+      verticalCollision
+    ) {
+      player.y = platformY - player.h;
+
+      bounce(p);
+
+      break;
     }
   }
+}
 
   // Camera follows upward
   const target = H * .42;
@@ -393,24 +415,51 @@ function update(dt) {
 function bounce(platform) {
   let jump = LEVELS[game.level - 1].jump;
 
-  if (platform.type === "spring") jump *= 1.65;
-  if (platform.type === "ice") player.vx *= 1.45;
+  if (platform.type === "spring") {
+    jump *= 1.65;
+  }
 
-  if (game.activePower === "jetpack") jump *= 1.25;
-  if (game.activePower === "double" && player.jumps > 0) jump *= 1.2;
+  if (platform.type === "ice") {
+    player.vx *= 1.15;
+  }
 
+  if (game.activePower === "jetpack") {
+    jump *= 1.25;
+  }
+
+  if (game.activePower === "double") {
+    jump *= 1.2;
+  }
+
+  // قوة القفزة
   player.vy = -jump;
+
+  // زيادة السكور
   player.jumps++;
 
   game.score += platform.type === "spring" ? 35 : 10;
-  burst(player.x + player.w/2, player.y + player.h, platform.type === "spring" ? 14 : 7, "jump");
-  sound(platform.type === "spring" ? 720 : 520, .07);
 
+  // تأثير القفزة
+  burst(
+    player.x + player.w / 2,
+    player.y + player.h,
+    platform.type === "spring" ? 14 : 7,
+    "jump"
+  );
+
+  // صوت القفزة
+  sound(
+    platform.type === "spring" ? 720 : 520,
+    0.07
+  );
+
+  // المنصة القابلة للكسر
   if (platform.type === "break") {
     platform.broken = true;
-    platform.alpha = .7;
+    platform.alpha = 0.7;
   }
 }
+
 
 function activatePower(kind) {
   const names = {
