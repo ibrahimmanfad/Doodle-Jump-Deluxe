@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doodle Jump Deluxe</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <h1>DOODLE <span>JUMP</span></h1>
+        <p>Deluxe Edition</p>
+      </div>
+      <div class="top-actions">
+        <button id="soundBtn" class="icon-btn" title="Son">🔊</button>
+        <button id="pauseBtn" class="icon-btn" title="Pause">⏸</button>
+      </div>
+    </header>
+
+    <section class="game-shell">
+      <canvas id="gameCanvas" width="480" height="720"></canvas>
+
+      <div id="hud" class="hud">
+        <div class="hud-card">
+          <span>⭐ SCORE</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="hud-card">
+          <span>💎 GEMMES</span>
+          <strong id="gems">0</strong>
+        </div>
+        <div class="hud-card">
+          <span>🏆 NIVEAU</span>
+          <strong id="level">1</strong>
+        </div>
+      </div>
+
+      <div id="menuOverlay" class="overlay">
+        <div class="panel">
+          <div class="logo-character">●</div>
+          <h2>Doodle Jump <span>Deluxe</span></h2>
+          <p class="subtitle">Saute, grimpe et bats ton meilleur score !</p>
+          <div class="feature-grid">
+            <div>🚀 <b>Boosts</b><small>Propulse-toi dans les airs</small></div>
+            <div>🌀 <b>Portails</b><small>Traverse l'espace instantanément</small></div>
+            <div>👾 <b>Ennemis</b><small>Évite les monstres</small></div>
+            <div>🎯 <b>20 niveaux</b><small>Chaque monde devient plus fou</small></div>
+          </div>
+          <button id="startBtn" class="primary-btn">JOUER</button>
+          <p class="controls">← → ou A / D pour bouger · ESPACE pour pause</p>
+        </div>
+      </div>
+
+      <div id="pauseOverlay" class="overlay hidden">
+        <div class="panel compact">
+          <h2>PAUSE ⏸</h2>
+          <p>Prends ton souffle, champion.</p>
+          <button id="resumeBtn" class="primary-btn">CONTINUER</button>
+          <button id="restartBtn" class="secondary-btn">RECOMMENCER</button>
+        </div>
+      </div>
+
+      <div id="gameOverOverlay" class="overlay hidden">
+        <div class="panel">
+          <h2>GAME OVER 💥</h2>
+          <p id="gameOverText">Tu as atteint le niveau 1.</p>
+          <div class="result">
+            <div>Score <b id="finalScore">0</b></div>
+            <div>Record <b id="bestScore">0</b></div>
+          </div>
+          <button id="retryBtn" class="primary-btn">REJOUER</button>
+        </div>
+      </div>
+
+      <div id="levelOverlay" class="level-overlay hidden">
+        <div>
+          <span>NIVEAU</span>
+          <strong id="levelAnnouncement">2</strong>
+        </div>
+      </div>
+
+      <div id="powerupLabel" class="powerup-label hidden"></div>
+    </section>
+
+    <section class="mobile-controls">
+      <button id="leftBtn">◀</button>
+      <button id="mobilePause">Ⅱ</button>
+      <button id="rightBtn">▶</button>
+    </section>
+
+    <footer>
+      <span>20 niveaux · plateformes mouvantes · ennemis · bonus · portails</span>
+      <span>Made for VS Code + GitHub 🚀</span>
+    </footer>
+  </main>
+
+  <script src="js/game.js"></script>
+</body>
+</html>
